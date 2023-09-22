@@ -1,0 +1,151 @@
+*,*::before, *::after{
+  box-sizing: border-box;
+ 
+}
+
+:root{
+  --cell-size: 100px;
+  --mark-size: calc(var(--cell-size)*.9);
+}
+
+body{
+  margin: 0; 
+  overflow: hidden;
+}
+
+.board{
+  display: grid;
+  grid-template-columns: repeat(3, auto);
+  width: 100vw;
+  height: 100vh;
+  justify-content: center;
+  align-content: center;
+  justify-items: center;
+  align-items: center;
+  
+  
+  
+}
+
+
+.cell{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: var(--cell-size);
+  height: var(--cell-size);
+  border: 1.5px solid rgb(0, 0, 0);
+  cursor: pointer;  
+  position: relative;
+}
+  /* Retire la bordure du dessus des cellules du dessus */
+.cell:first-child, .cell:nth-child(2),.cell:nth-child(3){
+  border-top: none;
+}
+/* Retire la bordure gauche des cellules de la colonne de gauche */
+.cell:nth-child(3n + 1){
+  border-left: none;
+}
+/* Retire la bordure droite des cellules de la colonne de droite */
+.cell:nth-child(3n){
+  border-right: none;
+
+}
+/* Retire la bordure du bas des cellules de la ligne du bas */
+.cell:last-child, .cell:nth-child(8),.cell:nth-child(7){
+  border-bottom: none;
+}
+
+.cell.x::before, .cell.x::after,.cell.circle::before{
+  background-color: rgb(0, 0, 0);
+}
+
+.board.x .cell:not(.x):not(.circle):hover::after,
+.board.x .cell:not(.x):not(.circle):hover::before{
+  background-color: lightgray;
+}
+
+/* Création du "X" */
+.cell.x::before, .cell.x::after,.board.x .cell:not(.x):not(.circle):hover::before, .cell:hover::after{
+  content: "";
+  width: calc(var(--mark-size)*.15);
+  height: var(--mark-size);
+  
+  position: fixed;
+}
+
+.cell.x::before,.board.x .cell:not(.x):not(.circle):hover::before{
+  rotate: 45deg;
+}
+.cell.x::after,.board.x .cell:not(.x):not(.circle):hover::after{
+  rotate: -45deg;
+}
+
+
+
+.board.circle .cell:not(.x):not(.circle):hover::after,
+.board.circle .cell:not(.x):not(.circle):hover::before{
+  background-color: lightgray;
+}
+
+
+/* Création du "O" */
+.cell.circle::before, .cell.circle::after, .board.circle .cell:not(.x):not(.circle):hover::before,
+.board.circle .cell:not(.x):not(.circle):hover::after{
+  content: "";
+  border-radius: 50%;
+  position: fixed;
+}
+.cell.circle::before, .board.circle .cell:not(.x):not(.circle):hover::before{
+  width: var(--mark-size);
+  height: var(--mark-size);
+  background-color: rgb(0, 0, 0),;
+}
+.cell.circle::after, .board.circle .cell:not(.x):not(.circle):hover::after{
+  width: calc(var(--mark-size)* .7);
+  height: calc(var(--mark-size)* .7);
+  background-color: rgb(255, 255, 255);
+  
+}
+/* Empêche le clique sur une case déjà rempli */
+.cell.x, .cell.circle{
+  cursor: not-allowed;
+}
+
+/* Création de l'écran de victoire */
+.winning-message {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0,0,0, 0.9);
+  
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 5rem;
+}
+
+
+.winning-message button{
+  font-size: 3rem;
+  background-color: white;
+  border: 1px solid black;
+  padding: .25em .5em;
+  cursor: pointer;
+  transition: 0.15s;
+  
+}
+
+.winning-message button:hover{
+  background-color: black;
+  color: white;
+  border-color: white;
+}
+
+.winning-message.show{
+  display: flex;
+}
